@@ -1,12 +1,12 @@
 var Producer = require('./Producer');
-var debug = require('debug');
+var debug = require('debug')('dev');
 
 function Factory(options) {
-  debug('dev')('I\'m Creating The Producers Factory: ');
- var options = options || {};
- this.amount = options.amount || 2;
- this.producers = [];
- return this;
+  debug('I\'m Creating The Producers Factory: ');
+  debug(options);
+  var config = options || {};
+  this.amount = config.amount || 2;
+  this.producers = [];
 }
 
 Factory.prototype.create = function() {
@@ -17,7 +17,7 @@ Factory.prototype.create = function() {
    this.amount--;
    idx++;
   }
-  debug('dev')('I have created:',this.producers.length + ' producers');
+  debug('I have created:',this.producers.length + ' producers');
   return this.producers;
 };
 

@@ -7,14 +7,14 @@ module.exports = {
     src:{
       html: 'test/runner.html',
       js: 'lib/**/*.js',
-      test: 'test/spec/**/*js'
+      test: 'test/specs/**/*js'
     }
   },
   lint:{
     all:['lib/**/*.js', 'test/**/*.js','build/**/*.js', '!node_modules/']
   },
   spec:{
-    path:'test/spec/**/*.js',
+    path:'test/specs/**/*.js',
     options:{
       ui:'bdd',
       growl: true,

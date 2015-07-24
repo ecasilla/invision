@@ -4,7 +4,8 @@
   "description": "A simple producer demo app",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test/specs --recursive -R spec "
+    "start":"DEBUG='dev' node index.js",
+    "test": "gulp test:unit "
   },
   "repository": {
     "type": "git",
