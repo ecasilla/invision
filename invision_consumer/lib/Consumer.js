@@ -6,7 +6,7 @@ var _this;
 
 function Consumer() {
   _this = this;
-  this.q = async.queue(_this.process,10);
+  this.q = async.queue(_this.process,50);
   this.q.drain = this.drain;
 }
 

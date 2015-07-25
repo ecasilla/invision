@@ -24,7 +24,7 @@ Factory.prototype.create = function() {
 function createInParallel(cb){
  async.parallel([
     function(callback){
-      var inst = new Producer(uuid.v4(),20);
+      var inst = new Producer(uuid.v1());
       self.amount--;
       callback(null,inst);
      }

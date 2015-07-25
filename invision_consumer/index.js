@@ -19,7 +19,7 @@
 //Include UML Activity Diagram and UML Sequence Diagram documenting the business logic
 //Include Unit tests
 
-var debug        = require('debug')('dev');
+var debug        = require('debug')
 var connect      = require('connect');
 var http         = require('http');
 var bodyParser   = require('body-parser');
@@ -53,14 +53,16 @@ app.use(function(req, res){
   if (!req.params.data) {
     return
   }
-  debug('new request incoming: ' + JSON.stringify(req.params));
+  debug('dev')('new request incoming: ' + JSON.stringify(req.params));
   var data = req.params;
+  debug('response')('response incoming');
   Consumer.enqueue(data,function(err,results){
     if (err) {
       debug('Houston we have a problem',err);
     }else{
-      debug('task result',results);
       res.end(results)
+      debug('dev')('task result',results);
+      debug('response')('response outgoing');
     }
   });
 });

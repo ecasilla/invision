@@ -19,7 +19,7 @@
 //Include UML Activity Diagram and UML Sequence Diagram documenting the business logic
 //Include Unit tests
 
-var debug             = require('debug')('dev');
+var debug             = require('debug');
 var connect           = require('connect');
 var http              = require('http');
 var async             = require('async');
@@ -41,25 +41,27 @@ var keepaliveAgent = new Agent({
   keepAliveTimeout: 60000 
 });
 
-async.each(producers,broadcast,function(err){
-  if (err) {
-    debug('async err',err)
-  }
-});
+function produceWork(callback){
+  async.each(producers,iterator,callback)
+}
+function iterator(producer,callback){
+  return producer.createWork(function(err,data) {
+   return produceContent(data,callback);
+  })
+};
+
+setInterval(produceWork,500)
 
 function produceContent(payload,callback){
-  debug('sending payload',payload)
+  debug('response')('sending payload',payload)
   request
   .get('http://localhost:'+ CONSUMER_PORT)
     .set('Content-Type', 'application/json')
     .agent(keepaliveAgent)
     .query(payload)
     .end(function(err,res){
-      debug("Consumer Response for: " + res.request.qs.owner + " " +  res.status + res.text);
-      callback(null,res);
+      debug('response')("Consumer Response for: " + res.request.qs.owner + " " +  res.status + res.text);
+      callback(null,res.text);
     })
 }
 
-function broadcast(producer,callback){
-  async.each(producer.load,produceContent,callback)
-}
