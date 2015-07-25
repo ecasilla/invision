@@ -23,29 +23,43 @@ var debug             = require('debug')('dev');
 var connect           = require('connect');
 var http              = require('http');
 var async             = require('async');
+var request           = require('superagent');
+var bodyParser        = require('body-parser');
+var Agent             = require('agentkeepalive');
 var app               = connect();
-var server            = http.createServer(app).listen(3000);
-var io                = require('socket.io')(server);
 var ProductionFactory = require('./lib/ProductionFactory');
+var factory           = new ProductionFactory(1);
+var producers         = factory.create();
+var CONSUMER_PORT     = process.env.PORT || 3000;
+var MY_PORT           = process.argv[2] || 4000;
 
- function iterator(item,callback) {
-   debug("Sending New Work: ",item.load);
-  io.emit('work',item.load);
-  callback();
- }
-
-io.on('connection', function (socket) {
- debug("New Consumer Socket Connecting: ");
- var factory = new ProductionFactory(10);
- var producers = factory.create();
- async.each(producers,iterator,function(err){
-   if(err){
-    debug("oops");
-   }
-   debug("Finished Sending Work: ");
- });
+ 
+var keepaliveAgent = new Agent({
+  maxSockets: 100,
+  maxFreeSockets: 10,
+  timeout: 60000,
+  keepAliveTimeout: 60000 
 });
 
-io.on('disconnect',function() {
-  debug("Consumer Socket Disconnecting: ");
+async.each(producers,broadcast,function(err){
+  if (err) {
+    debug('async err',err)
+  }
 });
+
+function produceContent(payload,callback){
+  debug('sending payload',payload)
+  request
+  .get('http://localhost:'+ CONSUMER_PORT)
+    .set('Content-Type', 'application/json')
+    .agent(keepaliveAgent)
+    .query(payload)
+    .end(function(err,res){
+      debug("Consumer Response for: " + res.request.qs.owner + " " +  res.status + res.text);
+      callback(null,res);
+    })
+}
+
+function broadcast(producer,callback){
+  async.each(producer.load,produceContent,callback)
+}

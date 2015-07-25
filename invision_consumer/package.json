@@ -4,6 +4,7 @@
   "description": "A simple producer demo app",
   "main": "index.js",
   "scripts": {
+    "start": "DEBUG='dev' node index.js",
     "test": "mocha test/specs --recursive -R spec "
   },
   "repository": {
@@ -34,9 +35,12 @@
     "require-dir": "^0.1.0"
   },
   "dependencies": {
+    "agentkeepalive": "^2.0.2",
     "async": "^1.4.0",
+    "body-parser": "^1.13.2",
     "connect": "^3.4.0",
     "debug": "^2.2.0",
-    "socket.io-client": "^1.3.6"
+    "lodash": "^3.10.0",
+    "superagent": "^1.2.0"
   }
 }

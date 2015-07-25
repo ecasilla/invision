@@ -19,28 +19,52 @@
 //Include UML Activity Diagram and UML Sequence Diagram documenting the business logic
 //Include Unit tests
 
-var debug = require('debug');
-var socket = require('socket.io-client')('http://localhost:3000');
-var Consumer = require('./lib/Consumer');
+var debug        = require('debug')('dev');
+var connect      = require('connect');
+var http         = require('http');
+var bodyParser   = require('body-parser');
+var parameters   = require('connect-params')
+var async        = require('async');
+var Agent        = require('agentkeepalive');
+var app          = connect();
+var Consumer     = require('./lib/Consumer');
+var port         = process.argv[2] || 3000;
+var data;
 
+app.use(bodyParser.json());
+app.use(parameters(function(params) {
+  return {
+    data: params.data,
+    owner: params.owner,
+  }
+}));
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 
-socket.on('connect', function(){
-  debug('dev')("Connecting to Producer: ");
-});
-socket.on('disconnect', function(){
-  debug('dev')("New Consumer Socket Disconnecting: ");
-});
-socket.on('reconnecting', function(){
-  debug('dev')("Consumer Socket Reconnecting: ");
-});
-socket.on('work', function(data){
-  debug('dev')("Receiving New Work: ",data);
-  Consumer.enqueue(data,function(err){
-   if (err) {
-     debug('dev')(err);
-   }
-   debug('dev')('Item Processed');
-  })
+var keepaliveAgent = new Agent({
+  maxSockets: 100,
+  maxFreeSockets: 10,
+  timeout: 60000,
+  keepAliveTimeout: 60000 
 });
 
+app.use(function(req, res){
+  if (!req.params.data) {
+    return
+  }
+  debug('new request incoming: ' + JSON.stringify(req.params));
+  var data = req.params;
+  Consumer.enqueue(data,function(err,results){
+    if (err) {
+      debug('Houston we have a problem',err);
+    }else{
+      debug('task result',results);
+      res.end(results)
+    }
+  });
+});
 
+http.createServer(app).listen(port,function(){
+ debug("listening on port %d",port);
+})

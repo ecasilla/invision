@@ -1,6 +1,7 @@
 var debug = require('debug')('dev');
+var async = require('async');
 
-function Producer(id,loadAmount) {
+function Producer(id) {
   debug('creating producer: ',id);
   this.id = id || 1;
   this.loadAmount = loadAmount || 10;
@@ -10,12 +11,16 @@ function Producer(id,loadAmount) {
 
 Producer.prototype.createWork = function() {
   debug('producer '+ this.id + ' creating work: ');
-  while(this.loadAmount !== this.load.length){
-    var payload = {data:[this.random(),"+",this.random(),"="].join(" "),owner:"Producer: " + this.id};
-    this.load.push(payload);
-  }
+  var self = this;
+  async.whilst(
+   function(){return self.loadAmount !== self.load.length},
+   function(callback){
+    var payload = {data:[self.random(),"+",self.random(),"="].join(" "),owner:"Producer: " + self.id};
+    self.load.push(payload);
+    callback();
+   }
+  )
 };
-
 
 Producer.prototype.random = function() {
   return Math.floor(Math.random() * 40000)

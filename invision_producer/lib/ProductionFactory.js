@@ -1,22 +1,37 @@
 var Producer = require('./Producer');
 var debug = require('debug')('dev');
+var async = require('async');
+var uuid = require('uuid');
+var self;
 
 function Factory(amount) {
   debug('Creating The Producers Factory: ');
+  self = this;
   this.amount = amount;
   this.producers = [];
 }
 
 Factory.prototype.create = function() {
-  var idx = 1;
-  while(this.amount >= 1){
-   var inst = new Producer(idx,20);
-   this.producers.push(inst);
-   this.amount--;
-   idx++;
-  }
-  debug('I have created:',this.producers.length + ' producers');
-  return this.producers;
+  async.whilst(
+    function(){return self.amount >= 1;},
+    createInParallel,
+    function (err) {
+    }
+  );
+  return self.producers;
 };
 
+function createInParallel(cb){
+ async.parallel([
+    function(callback){
+      var inst = new Producer(uuid.v4(),20);
+      self.amount--;
+      callback(null,inst);
+     }
+   ],function(err,results){
+      self.producers.push(results[0]);
+      debug('I have created:',self.producers.length + ' producers');
+      cb();
+   });
+}
 module.exports = Factory;
