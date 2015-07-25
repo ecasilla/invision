@@ -1,22 +1,31 @@
-var sinon = require('sinon');
 var expect = require('chai').expect;
 var ProductionFactory = require('../../lib/ProductionFactory');
 
 describe('The production factory: ', function(){
+  var factory;
+  beforeEach(function(){
+   factory = new ProductionFactory(2);
+  });
+  afterEach(function(){
+    factory = null;
+  });
   it('should be an object', function(){
-    expect(ProductionFactory).to.be.an('object');
+    expect(factory).to.be.an('object');
   });
   it('should have a create() method', function(){
-    var factory = ProductionFactory;
-    console.log(factory);
-  //  expect(factory.create).to.be.defined();
+    expect(factory).to.respondTo('create');
   });
-  it('should create configureable amount of producers', function(){
-    var options = {amount:10};
-    var factory = ProductionFactory();
-    factory.create();
-    expect(factory.amount).to.equal(10);
-    expect(factory.producers.length).to.equal(10);
+  it('should create 2 producers', function(){
+    var producers = factory.create()
+    expect(producers.length).to.equal(2);
+  });
+  it('should create n number of producers', function(){
+    var subject = new ProductionFactory(10)
+    var producers = subject.create()
+    expect(producers.length).to.equal(10);
+  });
+  it('should be an instance of the ProductionFactory', function(){
+    expect(factory).to.be.an.instanceof(ProductionFactory);
   });
 });
 

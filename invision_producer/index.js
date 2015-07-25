@@ -19,14 +19,14 @@
 //Include UML Activity Diagram and UML Sequence Diagram documenting the business logic
 //Include Unit tests
 
-var debug   = require('debug')('dev');
-var connect = require('connect');
-var http    = require('http');
-var async   = require('async');
-var app     = connect();
-var server  = http.createServer(app).listen(3000);
-var io      = require('socket.io')(server);
-var factory = require('./lib/ProductionFactory');
+var debug             = require('debug')('dev');
+var connect           = require('connect');
+var http              = require('http');
+var async             = require('async');
+var app               = connect();
+var server            = http.createServer(app).listen(3000);
+var io                = require('socket.io')(server);
+var ProductionFactory = require('./lib/ProductionFactory');
 
  function iterator(item,callback) {
    debug("Sending New Work: ",item.load);
@@ -36,6 +36,7 @@ var factory = require('./lib/ProductionFactory');
 
 io.on('connection', function (socket) {
  debug("New Consumer Socket Connecting: ");
+ var factory = new ProductionFactory(10);
  var producers = factory.create();
  async.each(producers,iterator,function(err){
    if(err){
