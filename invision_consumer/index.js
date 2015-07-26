@@ -25,7 +25,6 @@ var http         = require('http');
 var bodyParser   = require('body-parser');
 var parameters   = require('connect-params')
 var async        = require('async');
-var Agent        = require('agentkeepalive');
 var app          = connect();
 var Consumer     = require('./lib/Consumer');
 var port         = process.argv[2] || 3000;
@@ -42,16 +41,10 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-var keepaliveAgent = new Agent({
-  maxSockets: 100,
-  maxFreeSockets: 10,
-  timeout: 60000,
-  keepAliveTimeout: 60000 
-});
 
 app.use(function(req, res){
   if (!req.params.data) {
-    return
+    res.end(new Error("The was no data query can't process"))
   }
   debug('dev')('new request incoming: ' + JSON.stringify(req.params));
   var data = req.params;
@@ -68,5 +61,5 @@ app.use(function(req, res){
 });
 
 http.createServer(app).listen(port,function(){
- debug("listening on port %d",port);
+ debug('dev')("listening on port %d",port);
 })

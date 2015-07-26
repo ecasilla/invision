@@ -1,7 +1,7 @@
+var debug    = require('debug')('dev');
+var async    = require('async');
+var uuid     = require('uuid');
 var Producer = require('./Producer');
-var debug = require('debug')('dev');
-var async = require('async');
-var uuid = require('uuid');
 var self;
 
 function Factory(amount) {
@@ -16,6 +16,9 @@ Factory.prototype.create = function() {
     function(){return self.amount >= 1;},
     createInParallel,
     function (err) {
+     if (err) {
+      return err; 
+     }
     }
   );
   return self.producers;

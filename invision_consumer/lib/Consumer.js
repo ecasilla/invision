@@ -1,9 +1,16 @@
 var debug      = require('debug')('dev');
 var async      = require('async');
-var Arthimetic = require('./Arthimetic');
+var Agent        = require('agentkeepalive');
 var request    = require('superagent');
+var Arthimetic = require('./Arthimetic');
 var _this;
 
+var keepaliveAgent = new Agent({
+  maxSockets: 100,
+  maxFreeSockets: 10,
+  timeout: 60000,
+  keepAliveTimeout: 60000 
+});
 function Consumer() {
   _this = this;
   this.q = async.queue(_this.process,50);
@@ -25,6 +32,7 @@ Consumer.prototype.send = function(item,callback){
  request
   .post('http://localhost:3000')
   .set('Content-Type', 'application/json')
+  .agent(keepaliveAgent)
   .send({computed:item})
   .end(callback)
 }

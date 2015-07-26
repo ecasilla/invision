@@ -28,10 +28,9 @@ var bodyParser        = require('body-parser');
 var Agent             = require('agentkeepalive');
 var app               = connect();
 var ProductionFactory = require('./lib/ProductionFactory');
-var factory           = new ProductionFactory(1);
+var factory           = new ProductionFactory(2);
 var producers         = factory.create();
-var CONSUMER_PORT     = process.env.PORT || 3000;
-var MY_PORT           = process.argv[2] || 4000;
+var PORT     = process.env.PORT || 3000;
 
  
 var keepaliveAgent = new Agent({
@@ -55,7 +54,7 @@ setInterval(produceWork,500)
 function produceContent(payload,callback){
   debug('response')('sending payload',payload)
   request
-  .get('http://localhost:'+ CONSUMER_PORT)
+  .get('http://localhost:'+ PORT)
     .set('Content-Type', 'application/json')
     .agent(keepaliveAgent)
     .query(payload)
