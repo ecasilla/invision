@@ -38,8 +38,10 @@ Include Unit tests
 ###Starting The Producer
 
 ```bash
-$ npm start // This will output all activity
-$ npm start:response //This will output only response activity
+// This will output all activity
+$ npm start 
+//This will output only response activity
+$ npm run start:response 
 ```
 ##Configuring The Consumer
 ```bash
@@ -48,8 +50,10 @@ $  cd invision_consumer && chmod ugo+x ./install.sh && ./install.sh
 ###Starting The Consumer
 
 ```bash
-$ npm start // This will output all activity
-$ npm start:response //This will output only response activity
+// This will output all activity
+$ npm start 
+//This will output only response activity
+$ npm run start:response 
 ```
 
 ###Running Consumer Tests

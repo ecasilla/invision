@@ -54,6 +54,7 @@ function iterator(producer,callback){
  */
 function sendContent(payload,callback){
   debug('response')('sending payload',payload);
+  debug('dev')('sending payload',payload);
   request
   .get('http://localhost:'+ PORT)
     .set('Content-Type', 'application/json')
@@ -62,9 +63,11 @@ function sendContent(payload,callback){
     .end(function(err,res){
       if (err) {
        debug('dev')(err);
+       debug('response')(err);
       }
       if (res && res.request) {
         debug('response')('Consumer Response for: ' + res.request.qs.owner + ' ' +  res.status + res.text);
+        debug('dev')('Consumer Response for: ' + res.request.qs.owner + ' ' +  res.status + res.text);
         async.ensureAsync(callback(null,res.text));
       }
     });
