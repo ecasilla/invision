@@ -70,8 +70,5 @@ describe('Consumer: ', function(){
       done();
      });
     });
-    it('should have a send() method', function(){
-      expect(Consumer).to.respondTo('send');
-    });
   });
 });
