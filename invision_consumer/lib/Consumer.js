@@ -46,22 +46,6 @@ Consumer.prototype.process = function(task,callback) {
 };
 
 /**
- * @description The send function is a wrapper around a http back to the producer
- * @param {Object} the current item being sent back to the producer
- * @param {function} A callback function
- * @callback
- * @param {Error} A representation of an error that occurred during sending
- */
-Consumer.prototype.send = function(item,callback){
- request
-  .post('http://localhost:3000')
-  .set('Content-Type', 'application/json')
-  .agent(keepaliveAgent)
-  .send({computed:item})
-  .end(callback);
-};
-
-/**
  * @description The normalize function is a helper function to ensure expression consistency
  * @param{Object} The current task payload being processed
  * @returns{Object|String} If it all worked out then it return the object back otherwise it return an empty string
