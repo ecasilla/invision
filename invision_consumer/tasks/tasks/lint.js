@@ -1,10 +1,12 @@
-var gulp = require('gulp'),
-    jshint = require('gulp-jshint'),
+var gulp    = require('gulp'),
+    jshint  = require('gulp-jshint'),
     stylish = require('jshint-stylish'),
-    config = require('../config');
+    error   = require('../util/handleErrors'),
+    config  = require('../config');
 
 gulp.task('lint', function() {
   return gulp.src(config.lint.all)
     .pipe(jshint())
-    .pipe(jshint.reporter(stylish));
+    .pipe(jshint.reporter(stylish))
+    .on('error',error);
 });

@@ -49,7 +49,7 @@ app.use(bodyParser.urlencoded({
  */
 app.use(function(req, res,next){
   if (!req.params.data) {
-    var err = new Error('The was no data query can\'t process')
+    var err = new Error('The was no data query can\'t process');
     err.status = 500;
     next(err);
   }
@@ -70,13 +70,17 @@ app.use(function(req, res,next){
 });
 
 function errorHandler(){
-  return function errorHandler(err, req, res, next){
-    if (err.status) res.statusCode = err.status;
-    if (res.statusCode < 400) res.statusCode = 500;
+  return function errorHandler(err, req, res){
+    if (err.status) {res.statusCode = err.status;}
+    if (res.statusCode < 400) {res.statusCode = 500;}
     var accept = req.headers.accept || '';
-    if (~accept.indexOf('json')) {
+    if (accept.indexOf('json') !== -1) {
       var error = { message: err.message, stack: err.stack };
-      for (var prop in err) error[prop] = err[prop];
+      for (var prop in err) {
+       if (err.hasOwnProperty(prop)) {
+         error[prop] = err[prop];
+       }
+      }
       var json = JSON.stringify({ error: error });
       res.setHeader('Content-Type', 'application/json');
       res.end(json);
@@ -85,7 +89,7 @@ function errorHandler(){
       res.end(err.stack);
     }
   };
-};
+}
 
 app.use(errorHandler());
 

@@ -61,7 +61,7 @@ function sendContent(payload,callback){
     .query(payload)
     .end(function(err,res){
       if (err) {
-       debug('dev')(err)
+       debug('dev')(err);
       }
       if (res && res.request) {
         debug('response')('Consumer Response for: ' + res.request.qs.owner + ' ' +  res.status + res.text);

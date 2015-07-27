@@ -23,9 +23,6 @@ describe('Consumer: ', function(){
     it('should have a process() method', function(){
       expect(Consumer).to.respondTo('process');
     });
-    it('should have a send() method', function(){
-      expect(Consumer).to.respondTo('send');
-    });
     it('should have a normalize() method', function(){
       expect(Consumer).to.respondTo('normalize');
     });
@@ -65,7 +62,7 @@ describe('Consumer: ', function(){
     it('should queue an item to be processed', function(done){
      var stub = sandbox.stub(Consumer.q,'push');
      stub.yields(null,{owner:mockData.owner,data:'2+2=4'}); 
-     Consumer.enqueue(mockData,function(err,item){
+     Consumer.enqueue(mockData,function(){
        expect(stub.getCall(0).args[0]).to.equal(mockData);
       done();
      });

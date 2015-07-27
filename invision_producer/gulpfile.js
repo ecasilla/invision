@@ -11,13 +11,12 @@
 */
 var require_dir = require('require-dir'),
     gulp        = require('gulp'),
-    clean       = require('gulp-rimraf'),
+    del         = require('del'),
     config      = require('./tasks/config')
 
 require_dir('./tasks/tasks',{recurse:true});
 
 // CLEAN
-gulp.task('clean', function () {
-  return gulp.src([config.build.path], { read: false })
-    .pipe(clean());
+gulp.task('clean', function (cb) {
+  del([config.build.path], cb);
 });

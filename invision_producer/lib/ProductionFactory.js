@@ -1,5 +1,4 @@
 var debug    = require('debug')('dev');
-var async    = require('async');
 var uuid     = require('uuid');
 var Producer = require('./Producer');
 var self;
@@ -16,7 +15,7 @@ function Factory() {
 
 /**
  * @description A function used to create producers
- * @param {Number} The number of producers to be created
+ * @param{Number} The number of producers to be created
  * @returns{Array} An array of all producers created
  */
 Factory.prototype.create = function(amount) {
@@ -27,6 +26,6 @@ Factory.prototype.create = function(amount) {
   }
   debug('I have created:',this.producers.length + ' producers');
   return this.producers;
-}
+};
 /** Factory Constructor. */
 module.exports = Factory;

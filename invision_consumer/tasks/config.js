@@ -15,6 +15,6 @@ module.exports = {
     }
   },
   build:{
-    path: root + 'dist/'
+    path: root + '/docs/code/'
   }
 };

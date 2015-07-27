@@ -1,16 +1,8 @@
 var debug      = require('debug')('dev');
 var async      = require('async');
-var Agent        = require('agentkeepalive');
-var request    = require('superagent');
 var Arthimetic = require('./Arthimetic');
 var _this;
 
-var keepaliveAgent = new Agent({
-  maxSockets: 100,
-  maxFreeSockets: 10,
-  timeout: 60000,
-  keepAliveTimeout: 60000 
-});
 
 /**
  * @description The Consumer constructor function

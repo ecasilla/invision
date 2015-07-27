@@ -4,7 +4,7 @@ var async = require('async');
 
 /**
  * @description The Producer Constructor
- * @param {Number|String} A interger or uuid to keep track
+ * @param{Number|String} A interger or uuid to keep track
  * @this Producer
  * the current producer instance
  * @class Producer
@@ -15,12 +15,12 @@ function Producer(id) {
 }
 
 /**
- * @description The function used to create a random math expression 
- * @param {createWork~requestCallback} cb - The callback that handles the response.
+ * @description This function used to create a payload to be sent for the consumer 
+ * @param{Function} cb - The callback that handles the response.
  * @this Producer.prototype
  * @callback
- * @param {Error} responseError
- * @param {Object} response A object payload with a
+ * @param{Error} responseError
+ * @param{Object} response A object payload with a
  * data property with a math expression and a owner property with the producers id
  * @returns{Object} Payload
  */
