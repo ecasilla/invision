@@ -17,6 +17,8 @@ notifications:
   
 install: ./ci.sh
 
+script: ./ci_test.sh
+
 branches:
   only:
     - master
