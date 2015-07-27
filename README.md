@@ -24,7 +24,7 @@ Include Unit tests
 
 ##FAQ
 
-###These Are two separate projects under one repository so you will need to run two separate shell processes minimum in order to the two services communicating. Only one Consumer is allow per port but (N) number of producers can be spawned..
+###These Are two separate projects under one repository. So you will need to run two separate shells minimum in order to get the two services communicating. Only one Consumer is allowed per port but (N) number of producers can be spawned..
 
 
 ##Configuring The Producer
