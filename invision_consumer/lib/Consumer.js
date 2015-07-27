@@ -16,10 +16,9 @@ function Consumer() {
 
 /**
  * @description The Consumer constructor function
- * @param {Object} the current task being processed in the queue
- * @param {function} A callback function
- * @callback
- * @param {Error} A representation of an error that occurred during processing
+ * @param{Object} the current task being processed in the queue
+ * @param{function} A callback function
+ * @param{Error} A representation of an error that occurred during processing
  * @param{Object} The result of computing the task
  */
 Consumer.prototype.process = function(task,callback) {
@@ -63,10 +62,9 @@ Consumer.prototype.normalize = function(obj){
 
 /**
  * @description This function adds a item to the queue to be process when a worker is ready
- * @param {Object} the current item being added to the queue
- * @param {function} A callback function
- * @callback
- * @param {Object} the current item that was just processed
+ * @param{Object} the current item being added to the queue
+ * @param{function} A callback function
+ * @returns{Object} the current item that was just processed
  */
 Consumer.prototype.enqueue = function(item,cb) {
   debug('enqueuing item: ' + JSON.stringify(item) );

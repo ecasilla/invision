@@ -18,7 +18,6 @@ function Producer(id) {
  * @description This function used to create a payload to be sent for the consumer 
  * @param{Function} cb - The callback that handles the response.
  * @this Producer.prototype
- * @callback
  * @param{Error} responseError
  * @param{Object} response A object payload with a
  * data property with a math expression and a owner property with the producers id
