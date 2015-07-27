@@ -42,6 +42,7 @@
     "connect-params": "^1.0.0",
     "debug": "^2.2.0",
     "gulp-shell": "^0.4.2",
+    "ink-docstrap": "^0.5.2",
     "jsdoc": "^3.3.2",
     "superagent": "^1.2.0",
     "uuid": "^2.0.1"

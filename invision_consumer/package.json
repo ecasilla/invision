@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "DEBUG='dev' node index.js",
-    "test": "mocha test/specs --recursive -R spec "
+    "test": "gulp test:unit"
   },
   "repository": {
     "type": "git",
@@ -40,6 +40,8 @@
     "body-parser": "^1.13.2",
     "connect": "^3.4.0",
     "debug": "^2.2.0",
+    "gulp-shell": "^0.4.2",
+    "jsdoc": "^3.3.2",
     "lodash": "^3.10.0",
     "superagent": "^1.2.0"
   }

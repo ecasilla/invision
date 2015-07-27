@@ -16,12 +16,12 @@ describe('The production factory: ', function(){
     expect(factory).to.respondTo('create');
   });
   it('should create 2 producers', function(){
-    var producers = factory.create()
+    var producers = factory.create(2);
     expect(producers.length).to.equal(2);
   });
   it('should create n number of producers', function(){
-    var subject = new ProductionFactory(10)
-    var producers = subject.create()
+    var subject = new ProductionFactory();
+    var producers = subject.create(10);
     expect(producers.length).to.equal(10);
   });
   it('should be an instance of the ProductionFactory', function(){

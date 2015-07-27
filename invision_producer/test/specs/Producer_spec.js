@@ -26,9 +26,9 @@ describe('The Producer: ', function(){
     expect(producer).to.respondTo('random');
   });
   it('should create random numbers', function(){
-    sandbox.restore()
-    var rand1 = producer.random()
-    var rand2 = producer.random()
+    sandbox.restore();
+    var rand1 = producer.random();
+    var rand2 = producer.random();
     expect(rand1).to.be.an('number');
     expect(rand2).to.be.an('number');
     expect(rand1).to.not.equal(rand2);
@@ -53,7 +53,7 @@ describe('The Producer: ', function(){
   });
   it('should return an object on createWork', function(done){
     producer.createWork(function(err,work){
-      expect(work.data).to.equal("2 + 2 =");
+      expect(work.data).to.equal('2 + 2 =');
       done();
     });
   });

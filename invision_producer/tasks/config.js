@@ -4,7 +4,7 @@ var root = process.cwd();
 
 module.exports = {
   lint:{
-    all:['lib/**/*.js', 'test/**/*.js','build/**/*.js', '!node_modules/']
+    all:['lib/**/*.js', 'test/**/*.js','index.js', '!node_modules/']
   },
   spec:{
     path:'test/specs/**/*.js',

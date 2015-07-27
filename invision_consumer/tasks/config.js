@@ -3,20 +3,13 @@ var root = process.cwd();
 'use strict';
 
 module.exports = {
-  runner:{
-    src:{
-      html: 'test/runner.html',
-      js: 'lib/**/*.js',
-      test: 'test/spec/**/*js'
-    }
-  },
   lint:{
-    all:['lib/**/*.js', 'test/**/*.js','build/**/*.js', '!node_modules/']
+    all:['lib/**/*.js', 'test/**/*.js','index.js', '!node_modules/']
   },
   spec:{
-    path:'test/spec/**/*.js',
+    path:'test/specs/**/*.js',
     options:{
-      ui:'bdd',
+      ui:'nyan',
       growl: true,
       reporter:'spec'
     }
