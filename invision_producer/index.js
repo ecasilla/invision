@@ -63,7 +63,7 @@ function sendContent(payload,callback){
       if (err) {
        debug('dev')(err)
       }
-      if (res.ok) {
+      if (res && res.request) {
         debug('response')('Consumer Response for: ' + res.request.qs.owner + ' ' +  res.status + res.text);
         async.ensureAsync(callback(null,res.text));
       }

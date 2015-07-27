@@ -20,37 +20,13 @@ function Factory() {
  * @returns{Array} An array of all producers created
  */
 Factory.prototype.create = function(amount) {
-  this.amount = amount;
-  async.whilst(
-    function(){return self.amount >= 1;},
-    createInParallel,
-    function (err) {
-     if (err) {
-      return err; 
-     }
-    }
-  );
-  return self.producers;
-};
-
-/**
- * @description A Helper function used to create producer objects in parallel
- * @access private
- * @param {createInParallel~Callback} cb - The callback that handles the response.
- */
-function createInParallel(cb){
- async.parallel([
-    function(callback){
-      var inst = new Producer(uuid.v1());
-      self.amount--;
-      return async.ensureAsync(callback(null,inst));
-     }
-   ],function(err,results){
-      self.producers.push(results[0]);
-      debug('I have created:',self.producers.length + ' producers');
-      async.ensureAsync(cb);
-   });
+  while(amount >= 1){
+   var inst = new Producer(uuid.v1(),20);
+   this.producers.push(inst);
+   amount--;
+  }
+  debug('I have created:',this.producers.length + ' producers');
+  return this.producers;
 }
-
 /** Factory Constructor. */
 module.exports = Factory;
