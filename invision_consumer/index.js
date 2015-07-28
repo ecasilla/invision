@@ -52,6 +52,8 @@ app.use(function(req, res,next){
  */
 function errorHandler(){
   return function errorHandler(err, req, res){
+    debug('dev')('handling err',err);
+    debug('response')('handling err',err);
     if (err.status) {res.statusCode = err.status;}
     if (res.statusCode < 400) {res.statusCode = 500;}
     var accept = req.headers.accept || '';
@@ -65,9 +67,13 @@ function errorHandler(){
       var json = JSON.stringify({ error: error });
       res.setHeader('Content-Type', 'application/json');
       res.end(json);
+      debug('dev')('sending err',err);
+      debug('response')('sending err',err);
     } else {
       res.setHeader('Content-Type', 'text/plain');
       res.end(err.stack);
+      debug('dev')('sending err',err);
+      debug('response')('sending err',err);
     }
   };
 }
@@ -76,4 +82,10 @@ app.use(errorHandler());
 
 http.createServer(app).listen(port,function(){
  debug('dev')('listening on port %d',port);
+ debug('response')('listening on port %d',port);
+});
+
+process.on('SIGINT',function() {
+  debug('dev')('Bye Bye');
+  debug('response')('Bye Bye');
 });

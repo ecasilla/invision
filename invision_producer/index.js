@@ -62,8 +62,8 @@ function sendContent(payload,callback){
     .query(payload)
     .end(function(err,res){
       if (err) {
-       debug('dev')(err);
-       debug('response')(err);
+       debug('dev')('Error sending',err);
+       debug('response')('Error sending',err);
       }
       if (res && res.request) {
         debug('response')('Consumer Response for: ' + res.request.qs.owner + ' ' +  res.status + res.text);
@@ -73,4 +73,19 @@ function sendContent(payload,callback){
     });
 }
 
-setInterval(produceWork,50);
+var timer = setInterval(function(){
+ produceWork(function(err,result) {
+   if (err) {
+     debug('dev')('produce work err',err);
+     err = null;
+   }
+   debug('dev')('produce work result',result);
+   result = null;
+ });
+},50);
+
+process.on('SIGINT',function() {
+  clearInterval(timer);
+  debug('dev')('Bye Bye');
+  debug('response')('Bye Bye');
+});
